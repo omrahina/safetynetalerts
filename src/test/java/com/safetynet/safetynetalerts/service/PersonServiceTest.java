@@ -10,8 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class PersonServiceTest {
@@ -63,5 +62,15 @@ public class PersonServiceTest {
 
         assertNotNull(person);
         assertEquals("wall street", result.getAddress());
+    }
+
+    @Test
+    public void testDeletePerson_Ok(){
+        Person person = new Person("Yan", "Fan", "12 street",
+                "Paris", "75015", "01010101", "yan@gmail.com");
+
+        personService.deletePerson(person);
+
+        assertFalse(personService.getPersonList().contains(person));
     }
 }

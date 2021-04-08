@@ -52,8 +52,15 @@ public class PersonService {
         return null;
     }
 
-    public Person deletePerson(Person person) {
+    public void deletePerson(Person person) {
 
-        return null;
+       boolean removed = personList.removeIf(p ->
+               p.getFirstName().equals(person.getFirstName()) && p.getLastName().equals(person.getLastName()));
+       if (removed){
+           log.info(person.getFirstName() + " " +person.getLastName() + "'s record successfully deleted!");
+       }else {
+           log.info("Failed to delete person "+person.getFirstName() + " " +person.getLastName());
+       }
+
     }
 }
