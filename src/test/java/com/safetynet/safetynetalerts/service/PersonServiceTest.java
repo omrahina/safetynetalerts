@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 public class PersonServiceTest {
@@ -39,8 +40,9 @@ public class PersonServiceTest {
     public void testAddPerson(){
         Person person3 = new Person("Ran", "Tan", "wall street",
                 "Cergy", "95000", "01010103", "tan@gmail.com");
-        personService.addPerson(person3);
+        Person result = personService.addPerson(person3);
 
+        assertEquals("tan@gmail.com", result.getEmail());
         assertEquals("95000", personService.getPersonList().get(2).getZip());
     }
 
@@ -50,5 +52,16 @@ public class PersonServiceTest {
 
        assertEquals(2, result.size());
        assertEquals("Paris", result.get(0).getCity());
+    }
+
+    @Test
+    public void testUpdatePerson_Ok(){
+        Person person = new Person("Lan", "Han", "wall street",
+                "Cergy", "95000", "01010103", "tan@gmail.com");
+
+        Person result = personService.updatePerson(person);
+
+        assertNotNull(person);
+        assertEquals("wall street", result.getAddress());
     }
 }
