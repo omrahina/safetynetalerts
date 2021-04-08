@@ -30,4 +30,8 @@ public class PersonController {
         return personService.updatePerson(person);
     }
 
+    @DeleteMapping("/person")
+    public void deletePerson(@RequestBody Person person){
+        personService.deletePerson(person);
+    }
 }
