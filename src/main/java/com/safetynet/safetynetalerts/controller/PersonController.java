@@ -25,4 +25,9 @@ public class PersonController {
        return personService.addPerson(person);
     }
 
+    @PutMapping("/person")
+    public Person updatePerson(@RequestBody Person person){
+        return personService.updatePerson(person);
+    }
+
 }
