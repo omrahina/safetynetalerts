@@ -23,6 +23,7 @@ public class PersonService {
     }
 
     public Person addPerson(Person person){
+        //TODO add logging success(info)/error
         personList.add(person);
         return person;
     }
@@ -44,9 +45,10 @@ public class PersonService {
                 })
                 .findFirst();
         if (updatedPerson.isPresent()){
+            log.info(person.getFirstName() + " " +person.getLastName() + "'s record successfully updated!");
             return updatedPerson.get();
         }else {
-            log.info("Failed to update person "+person.getFirstName() + " " +person.getLastName());
+            log.error("Failed to update person "+person.getFirstName() + " " +person.getLastName());
         }
 
         return null;
@@ -59,7 +61,7 @@ public class PersonService {
        if (removed){
            log.info(person.getFirstName() + " " +person.getLastName() + "'s record successfully deleted!");
        }else {
-           log.info("Failed to delete person "+person.getFirstName() + " " +person.getLastName());
+           log.error("Failed to delete person "+person.getFirstName() + " " +person.getLastName());
        }
 
     }
