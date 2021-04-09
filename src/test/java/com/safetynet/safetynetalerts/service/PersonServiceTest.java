@@ -1,7 +1,6 @@
 package com.safetynet.safetynetalerts.service;
 
 import com.safetynet.safetynetalerts.model.Person;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,20 +17,17 @@ public class PersonServiceTest {
     @Autowired
     PersonService personService;
 
-    private static List<Person> persons = new ArrayList<>();
+    private List<Person> persons = new ArrayList<>();
 
-    @BeforeAll
-    private static void setUp(){
+    @BeforeEach
+    private void setUp(){
         Person person1 = new Person("Yan", "Fan", "12 street",
                 "Paris", "75015", "01010101", "yan@gmail.com");
         Person person2 = new Person("Lan", "Han", "13 street",
                 "Massy", "91300", "01010102", "lan@gmail.com");
         persons.add(person1);
         persons.add(person2);
-    }
 
-    @BeforeEach
-    private void setUpPerTest(){
         personService.setPersonList(persons);
     }
 
@@ -54,23 +50,43 @@ public class PersonServiceTest {
     }
 
     @Test
-    public void testUpdatePerson_Ok(){
+    public void testUpdatePerson_success(){
         Person person = new Person("Lan", "Han", "wall street",
                 "Cergy", "95000", "01010103", "tan@gmail.com");
 
         Person result = personService.updatePerson(person);
 
-        assertNotNull(person);
+        assertNotNull(result);
         assertEquals("wall street", result.getAddress());
     }
 
     @Test
-    public void testDeletePerson_Ok(){
+    public void testUpdatePerson_fail(){
+        Person person = new Person("Ran", "Tan", "wall street",
+                "Cergy", "95000", "01010103", "tan@gmail.com");
+
+        Person result = personService.updatePerson(person);
+
+        assertNull(result);
+    }
+
+    @Test
+    public void testDeletePerson_success(){
         Person person = new Person("Yan", "Fan", "12 street",
                 "Paris", "75015", "01010101", "yan@gmail.com");
 
         personService.deletePerson(person);
 
         assertFalse(personService.getPersonList().contains(person));
+    }
+
+    @Test
+    public void testDeletePerson_fail(){
+        Person person = new Person("Ran", "Tan", "wall street",
+                "Cergy", "95000", "01010103", "tan@gmail.com");
+
+        personService.deletePerson(person);
+        assertEquals(2, personService.getPersonList().size());
+
     }
 }
