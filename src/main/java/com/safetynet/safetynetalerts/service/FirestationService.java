@@ -52,4 +52,13 @@ public class FirestationService {
         return null;
     }
 
+    public void deleteFirestation(String address){
+        boolean removed = fireStationList.removeIf(f -> f.getAddress().equals(address));
+        if (removed){
+            log.info("Firestation successfully removed!");
+        }else {
+            log.error("Failed to delete the firestation");
+        }
+    }
+
 }

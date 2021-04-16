@@ -76,4 +76,21 @@ public class FirestationServiceTest {
         assertNull(result);
         assertThat(fireStations).hasSize(3).extracting(FireStation::getStation).doesNotContain(4);
     }
+
+    @Test
+    public void testDeleteFirestation_success(){
+        String address = "29 15th St";
+        firestationService.deleteFirestation(address);
+
+        assertThat(fireStations).hasSize(2).extracting(FireStation::getAddress).doesNotContain("29 15th St");
+    }
+
+    @Test
+    public void testDeleteFirestation_fail(){
+        String address = "29 Random";
+        firestationService.deleteFirestation(address);
+
+        assertThat(fireStations).hasSize(3);
+
+    }
 }
