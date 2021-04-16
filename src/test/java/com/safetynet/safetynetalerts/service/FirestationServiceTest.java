@@ -99,7 +99,7 @@ public class FirestationServiceTest {
         int stationNumber = 2;
         FireStationDTO fireStationDTO = firestationService.getPersonsCoveredByFirestation(stationNumber);
 
-        // TODO passing test
+        assertNotNull(fireStationDTO);
     }
 
     @Test
@@ -110,10 +110,4 @@ public class FirestationServiceTest {
         assertNull(fireStationDTO);
     }
 
-    @Test
-    public void testCalculateAge(){
-        int age = firestationService.calculateAge("01/06/2000");
-
-        assertEquals(21, age);
-    }
 }
