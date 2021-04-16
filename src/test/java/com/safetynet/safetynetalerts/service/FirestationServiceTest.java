@@ -1,5 +1,6 @@
 package com.safetynet.safetynetalerts.service;
 
+import com.safetynet.safetynetalerts.dto.FireStationDTO;
 import com.safetynet.safetynetalerts.model.FireStation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,8 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class FirestationServiceTest {
@@ -92,5 +92,28 @@ public class FirestationServiceTest {
 
         assertThat(fireStations).hasSize(3);
 
+    }
+
+    @Test
+    public void testGetPersonsCoveredByFirestation_success(){
+        int stationNumber = 2;
+        FireStationDTO fireStationDTO = firestationService.getPersonsCoveredByFirestation(stationNumber);
+
+        // TODO passing test
+    }
+
+    @Test
+    public void testGetPersonsCoveredByFirestation_fail(){
+        int stationNumber = 6;
+        FireStationDTO fireStationDTO = firestationService.getPersonsCoveredByFirestation(stationNumber);
+
+        assertNull(fireStationDTO);
+    }
+
+    @Test
+    public void testCalculateAge(){
+        int age = firestationService.calculateAge("01/06/2000");
+
+        assertEquals(21, age);
     }
 }
