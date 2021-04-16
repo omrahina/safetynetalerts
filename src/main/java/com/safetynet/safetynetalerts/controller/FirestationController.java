@@ -28,4 +28,9 @@ public class FirestationController {
         return firestationService.updateFirestation(fireStation);
     }
 
+    @DeleteMapping("/firestation")
+    public void deleteFirestation(@RequestParam String address){
+        firestationService.deleteFirestation(address);
+    }
+
 }
