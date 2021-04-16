@@ -4,16 +4,13 @@ import com.safetynet.safetynetalerts.dto.FireStationDTO;
 import com.safetynet.safetynetalerts.dto.PersonDTO;
 import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.model.MedicalRecord;
+import com.safetynet.safetynetalerts.utils.AlertUtils;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -89,8 +86,8 @@ public class FirestationService {
             }
 
             log.debug("Getting information about age");
-            int adultNumber = (int) medicalRecords.stream().filter(mr -> calculateAge(mr.getBirthdate()) > 18).count();
-            int childrenNumber = (int) medicalRecords.stream().filter(mr -> calculateAge(mr.getBirthdate()) <= 18).count();
+            int adultNumber = (int) medicalRecords.stream().filter(mr -> AlertUtils.calculateAge(mr.getBirthdate()) > 18).count();
+            int childrenNumber = (int) medicalRecords.stream().filter(mr -> AlertUtils.calculateAge(mr.getBirthdate()) <= 18).count();
 
             log.info("Person covered by stationNumber " + stationNumber + " successfully retrieved");
             return new FireStationDTO(personsByAddress, adultNumber, childrenNumber);
@@ -99,13 +96,5 @@ public class FirestationService {
 
         return null;
     }
-
-    public int calculateAge(String birthDate) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-        formatter = formatter.withLocale( Locale.FRANCE);
-        LocalDate date = LocalDate.parse(birthDate, formatter);
-        return Period.between(date, LocalDate.now()).getYears();
-    }
-
 
 }

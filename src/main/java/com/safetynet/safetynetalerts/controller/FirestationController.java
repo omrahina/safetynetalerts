@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/firestation")
 public class FirestationController {
 
-    FirestationService firestationService;
+   private FirestationService firestationService;
 
     public FirestationController(FirestationService firestationService){
         this.firestationService = firestationService;
