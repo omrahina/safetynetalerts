@@ -27,9 +27,10 @@ public class JSONService {
         ObjectMapper mapper = new ObjectMapper();
 
         try {
+            log.info("JSON data successfully retrieved");
             return mapper.readValue(jsonDataFile.getFile(), JsonData.class);
         } catch (IOException e) {
-            log.info(e.getMessage());
+            log.error(e.getMessage());
         }
 
         return null;
