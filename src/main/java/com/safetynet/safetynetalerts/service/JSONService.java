@@ -69,7 +69,6 @@ public class JSONService {
         return null;
     }
 
-    //TODO unit tests
     public List<Person> getAllPersonsByAddress(String address){
         List<Person> persons = getDataFromJSONFile().getPersons().stream().filter(p -> address.equals(p.getAddress()))
                 .collect(Collectors.toList());
