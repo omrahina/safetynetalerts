@@ -1,0 +1,71 @@
+package com.safetynet.safetynetalerts.service;
+
+import com.safetynet.safetynetalerts.dto.ChildAlertDTO;
+import com.safetynet.safetynetalerts.dto.ChildDTO;
+import com.safetynet.safetynetalerts.model.MedicalRecord;
+import com.safetynet.safetynetalerts.model.Person;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
+
+@SpringBootTest
+public class ChildAlertServiceTest {
+
+    @Mock
+    JSONService jsonService;
+    @InjectMocks
+    ChildAlertService childAlertService;
+
+    @Test
+    public void testGetChildrenByAddress_success(){
+        List<Person> persons = new ArrayList<>();
+        Person person = new Person("Yan", "Fan", "12 street",
+                "Paris", "75015", "01010101", "yan@gmail.com");
+        persons.add(person);
+        MedicalRecord medicalRecord = new MedicalRecord("Yan", "Fan", "01/01/2012",
+                Arrays.asList("ibu:250mg", "para:1000mg"), Arrays.asList("cow milk", "peanut"));
+
+        when(jsonService.getAllPersonsByAddress(anyString())).thenReturn(persons);
+        when(jsonService.getMedicalRecordByFirstNameAndLastName(anyString(), anyString())).thenReturn(medicalRecord);
+
+        ChildAlertDTO childAlertDTO = childAlertService.getChildrenByAddress("Random street");
+
+        assertThat(childAlertDTO.getChildren()).extracting(ChildDTO::getFirstName).contains("Yan");
+
+    }
+
+    @Test
+    public void testGetChildrenByAddress_wrongAddress(){
+        when(jsonService.getAllPersonsByAddress(anyString())).thenReturn(null);
+        ChildAlertDTO childAlertDTO = childAlertService.getChildrenByAddress("Random street");
+
+        assertThat(childAlertDTO.getChildren()).isEmpty();
+        assertThat(childAlertDTO.getFamilyMembers()).isEmpty();
+    }
+
+    @Test
+    public void testGetChildrenByAddress_noChild(){
+        Person person = new Person("Yan", "Fan", "12 street",
+                "Paris", "75015", "01010101", "yan@gmail.com");
+        MedicalRecord medicalRecord = new MedicalRecord("Yan", "Fan", "01/01/1978",
+                Arrays.asList("ibu:250mg", "para:1000mg"), Arrays.asList("cow milk", "peanut"));
+
+        when(jsonService.getAllPersonsByAddress(anyString())).thenReturn(Collections.singletonList(person));
+        when(jsonService.getMedicalRecordByFirstNameAndLastName(anyString(), anyString())).thenReturn(medicalRecord);
+
+        ChildAlertDTO childAlertDTO = childAlertService.getChildrenByAddress("Random street");
+
+        assertThat(childAlertDTO.getChildren()).isEmpty();
+        assertThat(childAlertDTO.getFamilyMembers()).isEmpty();
+    }
+}
