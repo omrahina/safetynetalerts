@@ -57,6 +57,17 @@ public class JSONService {
         return null;
     }
 
+    public List<Person> getAllPersonsByAddress(String address){
+        List<Person> persons = getDataFromJSONFile().getPersons().stream().filter(p -> address.equals(p.getAddress()))
+                .collect(Collectors.toList());
+        if (!persons.isEmpty()){
+            log.info("Matching person(s) found");
+            return persons;
+        }
+        log.error("No match found!");
+        return null;
+    }
+
     public MedicalRecord getMedicalRecordByFirstNameAndLastName(String firstName, String lastName){
         Optional<MedicalRecord> medicalRecord = getDataFromJSONFile().getMedicalrecords().stream()
                 .filter(mr -> mr.getFirstName().equals(firstName) && mr.getLastName().equals(lastName))
