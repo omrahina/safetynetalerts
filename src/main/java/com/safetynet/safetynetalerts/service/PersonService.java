@@ -23,9 +23,15 @@ public class PersonService {
     }
 
     public Person addPerson(Person person){
-        //TODO add logging success(info)/error
-        personList.add(person);
-        return person;
+
+        if(!person.getFirstName().isBlank() && !person.getLastName().isBlank()){
+            personList.add(person);
+            log.info(person.getFirstName() + " " + person.getLastName() + " successfully added!");
+            return person;
+        }
+        log.error("Failed to add the person");
+
+        return null;
     }
 
     public List<Person> list(){
