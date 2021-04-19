@@ -32,13 +32,22 @@ public class PersonServiceTest {
     }
 
     @Test
-    public void testAddPerson(){
+    public void testAddPerson_success(){
         Person person3 = new Person("Ran", "Tan", "wall street",
                 "Cergy", "95000", "01010103", "tan@gmail.com");
         Person result = personService.addPerson(person3);
 
         assertEquals("tan@gmail.com", result.getEmail());
         assertEquals("95000", personService.getPersonList().get(2).getZip());
+    }
+
+    @Test
+    public void testAddPerson_fail(){
+        Person person = new Person("", "  ", "wall street",
+                "Cergy", "95000", "01010103", "tan@gmail.com");
+        Person result = personService.addPerson(person);
+
+        assertNull(result);
     }
 
     @Test
