@@ -49,13 +49,28 @@ public class JSONServiceTest {
         List<Person> personList = jsonService.getAllPersonsByAddress(addresses);
 
         assertThat(personList).hasSize(5).extracting(Person::getFirstName)
-                .containsExactly("Jonanathan", "Sophia", "Warren", "Zach", "Eric");
+                .contains("Jonanathan", "Sophia", "Warren", "Zach", "Eric");
     }
 
     @Test
     public void testGetAllPersonsByAddress_fail(){
         List<String> addresses = Arrays.asList("123 Downing Ct", "12 wall street");
         List<Person> personList = jsonService.getAllPersonsByAddress(addresses);
+
+        assertNull(personList);
+    }
+
+    @Test
+    public void testGetAllPersonsByAddress_singleAddress_success(){
+        List<Person> personList = jsonService.getAllPersonsByAddress("892 Downing Ct");
+
+        assertThat(personList).hasSize(3).extracting(Person::getFirstName)
+                .containsExactly("Sophia", "Warren", "Zach");
+    }
+
+    @Test
+    public void testGetAllPersonsByAddress_singleAddress_fail(){
+        List<Person> personList = jsonService.getAllPersonsByAddress("Random address");
 
         assertNull(personList);
     }
