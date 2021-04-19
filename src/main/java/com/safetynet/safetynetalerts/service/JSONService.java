@@ -46,6 +46,18 @@ public class JSONService {
         return List.of();
     }
 
+    public FireStation getFirestationByAddress(String address){
+        Optional <FireStation> fireStation = getDataFromJSONFile().getFirestations().stream()
+                .filter(f -> address.equals(f.getAddress()))
+                .findFirst();
+        if (fireStation.isPresent()){
+            log.info("Matching fire station found");
+            return fireStation.get();
+        }
+        log.error("No matching fire station");
+        return null;
+    }
+
     public List<Person> getAllPersonsByAddress(List<String> addresses){
         List<Person> persons = getDataFromJSONFile().getPersons().stream().filter(p -> addresses.contains(p.getAddress()))
                 .collect(Collectors.toList());
@@ -57,6 +69,7 @@ public class JSONService {
         return null;
     }
 
+    //TODO unit tests
     public List<Person> getAllPersonsByAddress(String address){
         List<Person> persons = getDataFromJSONFile().getPersons().stream().filter(p -> address.equals(p.getAddress()))
                 .collect(Collectors.toList());

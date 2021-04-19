@@ -77,4 +77,17 @@ public class JSONServiceTest {
 
         assertNull(medicalRecord);
     }
+
+    @Test
+    public void testGetFirestationByAddress_success(){
+        FireStation fireStation = jsonService.getFirestationByAddress("892 Downing Ct");
+
+        assertEquals(2, fireStation.getStation());
+    }
+    @Test
+    public void testGetFirestationByAddress_fail(){
+        FireStation fireStation = jsonService.getFirestationByAddress("Random address");
+
+        assertNull(fireStation);
+    }
 }
