@@ -47,6 +47,17 @@ public class JSONService {
         return List.of();
     }
 
+    public List<FireStation> getAllFirestationsByStationNumber(List<Integer> stations){
+        List<FireStation> fireStations = getDataFromJSONFile().getFirestations().stream().filter(f -> stations.contains(f.getStation()))
+                .collect(Collectors.toList());
+        if (!fireStations.isEmpty()){
+            log.info("Matching fire station(s) found");
+            return fireStations;
+        }
+        log.error("No matching fire station found!");
+        return List.of();
+    }
+
     public FireStation getFirestationByAddress(String address){
         Optional <FireStation> fireStation = getDataFromJSONFile().getFirestations().stream()
                 .filter(f -> address.equals(f.getAddress()))
