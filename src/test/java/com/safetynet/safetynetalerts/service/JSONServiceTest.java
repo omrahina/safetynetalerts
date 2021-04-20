@@ -44,6 +44,22 @@ public class JSONServiceTest {
     }
 
     @Test
+    public void testGetFirestationByStationNumber_list_success(){
+      List<Integer> stations = Arrays.asList(1, 2);
+      List<FireStation> fireStationList = jsonService.getAllFirestationsByStationNumber(stations);
+
+      assertThat(fireStationList).hasSize(6);
+    }
+
+    @Test
+    public void testGetFirestationByStationNumber_list_fail(){
+        List<Integer> stations = Arrays.asList(5, 7);
+        List<FireStation> fireStationList = jsonService.getAllFirestationsByStationNumber(stations);
+
+        assertThat(fireStationList).isEmpty();
+    }
+
+    @Test
     public void testGetAllPersonsByAddress_success(){
         List<String> addresses = Arrays.asList("892 Downing Ct", "29 15th St", "951 LoneTree Rd");
         List<Person> personList = jsonService.getAllPersonsByAddress(addresses);
