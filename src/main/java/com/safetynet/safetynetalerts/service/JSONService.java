@@ -104,6 +104,18 @@ public class JSONService {
         return null;
     }
 
+    public List<Person> getPersonsByCity(String city){
+        List<Person> persons = getDataFromJSONFile().getPersons().stream()
+                .filter(person -> city.equals(person.getCity()))
+                .collect(Collectors.toList());
+        if (!persons.isEmpty()){
+            log.info("Person(s) living in "+ city + " successfully retrieved");
+            return persons;
+        }
+        log.error("No one found for "+ city);
+        return null;
+    }
+
     public MedicalRecord getMedicalRecordByFirstNameAndLastName(String firstName, String lastName){
         Optional<MedicalRecord> medicalRecord = getDataFromJSONFile().getMedicalrecords().stream()
                 .filter(mr -> mr.getFirstName().equals(firstName) && mr.getLastName().equals(lastName))
