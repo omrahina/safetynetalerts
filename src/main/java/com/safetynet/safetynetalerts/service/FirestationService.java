@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class FirestationService {
 
-    JSONService jsonService;
+    private JSONService jsonService;
     private List<FireStation> fireStationList;
 
     public FirestationService(JSONService jsonService){

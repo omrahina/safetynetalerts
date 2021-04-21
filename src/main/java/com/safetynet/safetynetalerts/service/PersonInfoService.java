@@ -16,7 +16,7 @@ import java.util.List;
 @Data
 public class PersonInfoService {
 
-    JSONService jsonService;
+    private JSONService jsonService;
 
     public PersonInfoService(JSONService jsonService){
         this.jsonService = jsonService;

@@ -13,7 +13,7 @@ import java.util.Optional;
 @Data
 public class MedicalRecordService {
 
-    JSONService jsonService;
+    private JSONService jsonService;
     private List<MedicalRecord> medicalRecordList;
 
     public MedicalRecordService(JSONService jsonService){
