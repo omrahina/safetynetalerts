@@ -92,6 +92,18 @@ public class JSONService {
         return null;
     }
 
+    public List<Person> getPersonsByFirstNameAndLastName(String firstName, String lastName){
+        List<Person> persons = getDataFromJSONFile().getPersons().stream()
+                .filter(person -> firstName.equals(person.getFirstName()) && lastName.equals(person.getLastName()))
+                .collect(Collectors.toList());
+        if (!persons.isEmpty()){
+            log.info("Matching person(s) found");
+            return persons;
+        }
+        log.error("No match found!");
+        return null;
+    }
+
     public MedicalRecord getMedicalRecordByFirstNameAndLastName(String firstName, String lastName){
         Optional<MedicalRecord> medicalRecord = getDataFromJSONFile().getMedicalrecords().stream()
                 .filter(mr -> mr.getFirstName().equals(firstName) && mr.getLastName().equals(lastName))
@@ -100,6 +112,18 @@ public class JSONService {
         if (medicalRecord.isPresent()){
             log.info("Matching medical record found");
             return medicalRecord.get();
+        }
+        log.error("Medical record not found!");
+        return null;
+    }
+
+    public List<MedicalRecord> getAllMedicalRecordsByFirstNameAndLastName(String firstName, String lastName){
+        List<MedicalRecord> medicalRecords = getDataFromJSONFile().getMedicalrecords().stream()
+                .filter(mr -> firstName.equals(mr.getFirstName()) && lastName.equals(mr.getLastName()))
+                .collect(Collectors.toList());
+        if(!medicalRecords.isEmpty()){
+            log.info("Matching medical record(s) found");
+            return medicalRecords;
         }
         log.error("Medical record not found!");
         return null;
