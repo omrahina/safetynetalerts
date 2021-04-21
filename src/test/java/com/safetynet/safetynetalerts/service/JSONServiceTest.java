@@ -92,7 +92,23 @@ public class JSONServiceTest {
     }
 
     @Test
-    public void testGetMedicalRecordsByFirstNameAndLastName_success(){
+    public void testGetPersonByFirstNameAndLastName_success(){
+        List<Person> personList = jsonService.getPersonsByFirstNameAndLastName("Sophia", "Zemicks");
+
+        //Even though the case wasn't asserted here, the method is supposed to return all persons matching firstName and lastName
+        assertThat(personList).hasSize(1).extracting(Person::getFirstName)
+                .containsExactly("Sophia");
+    }
+
+    @Test
+    public void testGetPersonByFirstNameAndLastName_fail(){
+        List<Person> personList = jsonService.getPersonsByFirstNameAndLastName("Random", "Random");
+
+        assertNull(personList);
+    }
+
+    @Test
+    public void testGetMedicalRecordByFirstNameAndLastName_success(){
         String firstName = "Sophia";
         String lastName = "Zemicks";
         MedicalRecord medicalRecord = jsonService.getMedicalRecordByFirstNameAndLastName(firstName, lastName);
@@ -101,7 +117,7 @@ public class JSONServiceTest {
     }
 
     @Test
-    public void testGetMedicalRecordsByFirstNameAndLastName_fail(){
+    public void testGetMedicalRecordByFirstNameAndLastName_fail(){
         String firstName = "Soleil";
         String lastName = "Zemicks";
         MedicalRecord medicalRecord = jsonService.getMedicalRecordByFirstNameAndLastName(firstName, lastName);
@@ -110,6 +126,20 @@ public class JSONServiceTest {
     }
 
     @Test
+    public void testGetAllMedicalRecordsByFirstNameAndLastName_success(){
+        List<MedicalRecord> medicalRecords = jsonService.getAllMedicalRecordsByFirstNameAndLastName("John", "Boyd");
+
+        assertThat(medicalRecords).extracting(MedicalRecord::getBirthdate).contains("03/06/1984");
+    }
+
+    @Test
+    public void testGetAllMedicalRecordsByFirstNameAndLastName_fail(){
+        List<MedicalRecord> medicalRecords = jsonService.getAllMedicalRecordsByFirstNameAndLastName("Random", "Random");
+
+        assertNull(medicalRecords);
+    }
+
+        @Test
     public void testGetFirestationByAddress_success(){
         FireStation fireStation = jsonService.getFirestationByAddress("892 Downing Ct");
 
