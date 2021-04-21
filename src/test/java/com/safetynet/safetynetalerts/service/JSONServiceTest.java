@@ -108,6 +108,20 @@ public class JSONServiceTest {
     }
 
     @Test
+    public void testGetPersonsByCity_success(){
+        List<Person> personList = jsonService.getPersonsByCity("Culver");
+
+        assertThat(personList).hasSize(23);
+    }
+
+    @Test
+    public void testGetPersonsByCity_fail(){
+        List<Person> personList = jsonService.getPersonsByCity("Random city");
+
+        assertNull(personList);
+    }
+
+    @Test
     public void testGetMedicalRecordByFirstNameAndLastName_success(){
         String firstName = "Sophia";
         String lastName = "Zemicks";
