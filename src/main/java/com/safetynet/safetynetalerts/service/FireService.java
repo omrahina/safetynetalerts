@@ -24,6 +24,11 @@ public class FireService {
         this.jsonService = jsonService;
     }
 
+    /**
+     * Get the list of persons living at a given address plus the station number serving it
+     * @param address a String
+     * @return FireDTO object
+     */
     public FireDTO getAllPersonAndStationByAddress(String address) {
         FireDTO fireDTO = new FireDTO(List.of(), 0);
         List<Person> persons = jsonService.getAllPersonsByAddress(address);

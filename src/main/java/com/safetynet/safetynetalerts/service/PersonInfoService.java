@@ -21,6 +21,13 @@ public class PersonInfoService {
     public PersonInfoService(JSONService jsonService){
         this.jsonService = jsonService;
     }
+
+    /**
+     * Get some information about people based on the first and last names
+     * @param firstName A String
+     * @param lastName A String
+     * @return Iterable<PersonInfoDTO> or null
+     */
     public Iterable<PersonInfoDTO> getPersonInfo(String firstName, String lastName) {
         List<PersonInfoDTO> personInfos = new ArrayList<>();
         List<Person> persons = jsonService.getPersonsByFirstNameAndLastName(firstName, lastName);

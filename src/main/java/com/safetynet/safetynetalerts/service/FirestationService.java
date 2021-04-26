@@ -31,8 +31,12 @@ public class FirestationService {
         return fireStationList;
     }
 
+    /**
+     * Add a mapping station/address
+     * @param fireStation A valid FireStation object
+     * @return The added mapping or null if the address is null
+     */
     public FireStation addFirestation(FireStation fireStation) {
-        //Shall we test the case station is not specified meaning O?
         if(fireStation.getAddress() != null){
             fireStationList.add(fireStation);
             log.info(fireStation.getAddress() + " " + fireStation.getStation() + " successfully added!");
@@ -43,6 +47,11 @@ public class FirestationService {
         return null;
     }
 
+    /**
+     * Update a mapping station/address
+     * @param fireStation A mapping with an existing address
+     * @return The updated mapping or null in case of a failure
+     */
     public FireStation updateFirestation(FireStation fireStation) {
 
         Optional<FireStation> updatedFirestation = fireStationList.stream()
@@ -58,6 +67,10 @@ public class FirestationService {
         return null;
     }
 
+    /**
+     * Delete a mapping
+     * @param address The address of the mapping to be removed
+     */
     public void deleteFirestation(String address){
         boolean removed = fireStationList.removeIf(f -> f.getAddress().equals(address));
         if (removed){
@@ -67,6 +80,11 @@ public class FirestationService {
         }
     }
 
+    /**
+     * Get the persons covered by a given fire station
+     * @param stationNumber The fire station's number
+     * @return Information on those persons in case the number exists, null otherwise
+     */
     public FireStationDTO getPersonsCoveredByFirestation(int stationNumber) {
 
         log.debug("searching for addresses corresponding to stationNumber " + stationNumber);

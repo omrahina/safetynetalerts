@@ -18,6 +18,12 @@ public class CommunityEmailService {
     public CommunityEmailService(JSONService jsonService){
         this.jsonService = jsonService;
     }
+
+    /**
+     * Get email addresses of all the inhabitants of the city.
+     * @param city a String
+     * @return Iterable<String> if the city exists, null otherwise
+     */
     public Iterable<String> getEmailsByCity(String city) {
         List<Person> persons = jsonService.getPersonsByCity(city);
         if(persons != null){
