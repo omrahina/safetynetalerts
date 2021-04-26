@@ -81,20 +81,15 @@ public class PersonServiceTest {
 
     @Test
     public void testDeletePerson_success(){
-        Person person = new Person("Yan", "Fan", "12 street",
-                "Paris", "75015", "01010101", "yan@gmail.com");
+        boolean removed = personService.deletePerson("Yan", "Fan");
 
-        personService.deletePerson(person);
-
-        assertFalse(personService.getPersonList().contains(person));
+        assertTrue(removed);
     }
 
     @Test
     public void testDeletePerson_fail(){
-        Person person = new Person("Ran", "Tan", "wall street",
-                "Cergy", "95000", "01010103", "tan@gmail.com");
+        personService.deletePerson("Ran", "Tan");
 
-        personService.deletePerson(person);
         assertEquals(2, personService.getPersonList().size());
 
     }
