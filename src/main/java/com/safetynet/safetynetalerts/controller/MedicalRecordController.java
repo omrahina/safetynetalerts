@@ -30,7 +30,7 @@ public class MedicalRecordController {
     }
 
     @DeleteMapping
-    public void deleteMedicalRecord(@RequestBody MedicalRecord medicalRecord){
-        medicalRecordService.deleteMedicalRecord(medicalRecord);
+    public void deleteMedicalRecord(@RequestParam String firstName, @RequestParam String lastName){
+        medicalRecordService.deleteMedicalRecord(firstName, lastName);
     }
 }
