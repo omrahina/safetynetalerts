@@ -48,7 +48,8 @@ public class MedicalRecordServiceTest {
 
     @Test
     public void testAddMedicalRecord_fail(){
-        MedicalRecord medicalRecord = new MedicalRecord();
+        MedicalRecord medicalRecord = new MedicalRecord("", "Lin", "01/01/2000",
+                Arrays.asList("test:50mg", "test2:1000mg"), Arrays.asList("butter", "rice"));
         MedicalRecord record = medicalRecordService.addMedicalRecord(medicalRecord);
 
         assertNull(record);

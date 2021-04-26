@@ -36,7 +36,7 @@ public class MedicalRecordService {
      */
     public MedicalRecord addMedicalRecord(MedicalRecord medicalRecord) {
 
-        if ((medicalRecord.getFirstName() != null) && (medicalRecord.getLastName() != null)){
+        if (!medicalRecord.getFirstName().isBlank() && !medicalRecord.getLastName().isBlank()){
             medicalRecordList.add(medicalRecord);
             log.info("Medical record successfully added");
             return medicalRecord;
