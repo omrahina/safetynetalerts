@@ -1,6 +1,5 @@
 package com.safetynet.safetynetalerts.service;
 
-import com.safetynet.safetynetalerts.dto.PersonDTO;
 import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.model.Person;
 import lombok.Data;
@@ -21,6 +20,11 @@ public class PhoneAlertService {
         this.jsonService = jsonService;
     }
 
+    /**
+     * Get phone numbers of all persons covered by a fire station
+     * @param firestation A known station number
+     * @return Iterable<String> or null
+     */
     public Iterable<String> getPhones(int firestation) {
 
         log.debug("searching for addresses corresponding to firestation " + firestation);

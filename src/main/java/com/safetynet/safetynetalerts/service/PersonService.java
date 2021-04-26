@@ -22,6 +22,11 @@ public class PersonService {
         personList = jsonService.getDataFromJSONFile().getPersons();
     }
 
+    /**
+     * Add a person
+     * @param person Person object
+     * @return The added object or null
+     */
     public Person addPerson(Person person){
 
         if(!person.getFirstName().isBlank() && !person.getLastName().isBlank()){
@@ -34,10 +39,19 @@ public class PersonService {
         return null;
     }
 
+    /**
+     * Get all persons
+     * @return List<Person>
+     */
     public List<Person> list(){
         return personList;
     }
 
+    /**
+     * Update an existing person
+     * @param person Person object
+     * @return The updated object or null
+     */
     public Person updatePerson(Person person) {
 
         Optional<Person> updatedPerson = personList.stream()
@@ -60,6 +74,10 @@ public class PersonService {
         return null;
     }
 
+    /**
+     * Delete an existing person
+     * @param person Person object to be deleted
+     */
     public void deletePerson(Person person) {
 
        boolean removed = personList.removeIf(p ->

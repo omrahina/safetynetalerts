@@ -21,10 +21,19 @@ public class MedicalRecordService {
         medicalRecordList = jsonService.getDataFromJSONFile().getMedicalrecords();
     }
 
+    /**
+     * Get all medical records available
+     * @return A list of medical records
+     */
     public Iterable<MedicalRecord> list() {
         return medicalRecordList;
     }
 
+    /**
+     * Add a medical record
+     * @param medicalRecord A MedicalRecord object with at least a valid first name and last name
+     * @return The added record or null if the operation failed
+     */
     public MedicalRecord addMedicalRecord(MedicalRecord medicalRecord) {
 
         if ((medicalRecord.getFirstName() != null) && (medicalRecord.getLastName() != null)){
@@ -36,6 +45,11 @@ public class MedicalRecordService {
         return null;
     }
 
+    /**
+     * Update an existing medical record
+     * @param medicalRecord A MedicalRecord object
+     * @return The updated record
+     */
     public MedicalRecord updateMedicalRecord(MedicalRecord medicalRecord) {
         Optional<MedicalRecord> updatedRecord = medicalRecordList.stream()
                 .filter(mr -> mr.getFirstName().equals(medicalRecord.getFirstName()) && mr.getLastName().equals(medicalRecord.getLastName()))
@@ -53,6 +67,10 @@ public class MedicalRecordService {
         return null;
     }
 
+    /**
+     * Delete an existing medical record
+     * @param medicalRecord A MedicalRecord object
+     */
     public void deleteMedicalRecord(MedicalRecord medicalRecord) {
         boolean removed = medicalRecordList.removeIf(mr ->
                 mr.getFirstName().equals(medicalRecord.getFirstName()) && mr.getLastName().equals(medicalRecord.getLastName()));

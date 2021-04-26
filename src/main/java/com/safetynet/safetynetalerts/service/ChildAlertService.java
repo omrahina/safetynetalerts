@@ -23,6 +23,11 @@ public class ChildAlertService {
         this.jsonService = jsonService;
     }
 
+    /**
+     * Get a list of children(age <= 18) living at a certain address as well as their family members
+     * @param address A known address
+     * @return Information about the children or an empty object
+     */
     public ChildAlertDTO getChildrenByAddress(String address) {
         ChildAlertDTO childAlertDTO = new ChildAlertDTO(List.of(), List.of());
         log.debug("searching for persons living at " + address);

@@ -25,6 +25,11 @@ public class StationsService {
         this.jsonService = jsonService;
     }
 
+    /**
+     * Get all persons covered by a provided list of stations
+     * @param stations A list of station numbers
+     * @return Iterable<StationsDTO>
+     */
     public Iterable<StationsDTO> getStationsCovered(List<Integer> stations) {
         List<StationsDTO> families = new ArrayList<>();
         List<FireStation> fireStations = jsonService.getAllFirestationsByStationNumber(stations);
