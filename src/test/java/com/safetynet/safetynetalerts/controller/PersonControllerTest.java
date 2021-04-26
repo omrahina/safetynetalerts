@@ -38,7 +38,7 @@ public class PersonControllerTest {
 
         mockMvc.perform(post("/person").contentType(MediaType.APPLICATION_JSON)
                 .content(requestBodyJson))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
     }
 
     @Test
@@ -59,8 +59,9 @@ public class PersonControllerTest {
                 "Paris", "75015", "01010101", "yan@gmail.com");
         String requestBodyJson = new ObjectMapper().writeValueAsString(person);
 
-        mockMvc.perform(delete("/person").contentType(MediaType.APPLICATION_JSON)
-                .content(requestBodyJson))
-                .andExpect(status().isOk());
+        mockMvc.perform(delete("/person")
+                .param("firstName", "John")
+                .param("lastName", "Boyd"))
+                .andExpect(status().isNoContent());
     }
 }
