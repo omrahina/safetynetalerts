@@ -2,6 +2,9 @@ package com.safetynet.safetynetalerts.controller;
 
 import com.safetynet.safetynetalerts.dto.StationsDTO;
 import com.safetynet.safetynetalerts.service.StationsService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/stations")
+@Slf4j
 public class StationsController {
 
     StationsService stationsService;
@@ -20,7 +24,14 @@ public class StationsController {
     }
 
     @GetMapping
-    public Iterable<StationsDTO> getFamiliesCovered(@RequestParam List<Integer> stations){
-        return stationsService.getStationsCovered(stations);
+    public ResponseEntity<Iterable<StationsDTO>> getFamiliesCovered(@RequestParam List<Integer> stations){
+        log.info("getFamiliesCovered request "+ stations);
+        Iterable<StationsDTO> result = stationsService.getStationsCovered(stations);
+        if (result != null){
+            log.info("getFamiliesCovered response "+ result);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+        log.error("getFamiliesCovered response "+ null);
+        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 }

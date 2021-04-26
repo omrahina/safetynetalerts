@@ -70,14 +70,16 @@ public class FirestationService {
     /**
      * Delete a mapping
      * @param address The address of the mapping to be removed
+     * @return True or false depending on the successfulness or failure of the operation
      */
-    public void deleteFirestation(String address){
+    public boolean deleteFirestation(String address){
         boolean removed = fireStationList.removeIf(f -> f.getAddress().equals(address));
         if (removed){
             log.info("Firestation successfully removed!");
         }else {
             log.error("Failed to delete the firestation");
         }
+        return removed;
     }
 
     /**
