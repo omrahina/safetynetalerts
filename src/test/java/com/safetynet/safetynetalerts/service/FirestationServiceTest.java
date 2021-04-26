@@ -52,8 +52,17 @@ public class FirestationServiceTest {
     }
 
     @Test
-    public void testAddFirestation_fail(){
+    public void testAddFirestation_nullAddress(){
         FireStation fireStation = new FireStation();
+        FireStation result = firestationService.addFirestation(fireStation);
+
+        assertNull(result);
+        assertThat(fireStations).hasSize(3);
+    }
+
+    @Test
+    public void testAddFirestation_emptyAddress(){
+        FireStation fireStation = new FireStation("", 9);
         FireStation result = firestationService.addFirestation(fireStation);
 
         assertNull(result);
