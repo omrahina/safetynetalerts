@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/person")
+@Slf4j
 public class PersonController {
 
     private PersonService personService;
@@ -30,8 +32,8 @@ public class PersonController {
         return personService.updatePerson(person);
     }
 
-    @DeleteMapping("/person")
-    public void deletePerson(@RequestBody Person person){
-        personService.deletePerson(person);
+    @DeleteMapping
+    public void deletePerson(@RequestParam String firstName, @RequestParam String lastName){
+        boolean removed = personService.deletePerson(firstName, lastName);
     }
 }

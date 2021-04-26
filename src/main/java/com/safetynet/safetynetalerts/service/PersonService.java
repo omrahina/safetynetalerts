@@ -76,17 +76,18 @@ public class PersonService {
 
     /**
      * Delete an existing person
-     * @param person Person object to be deleted
+     * @param firstName person's first name
+     * @param lastName person's last name
+     * @return True or false depending on the successfulness or failure of the operation
      */
-    public void deletePerson(Person person) {
+    public boolean deletePerson(String firstName, String lastName) {
 
-       boolean removed = personList.removeIf(p ->
-               p.getFirstName().equals(person.getFirstName()) && p.getLastName().equals(person.getLastName()));
+       boolean removed = personList.removeIf(p -> firstName.equals(p.getFirstName()) && lastName.equals(p.getLastName()));
        if (removed){
-           log.info(person.getFirstName() + " " +person.getLastName() + "'s record successfully deleted!");
+           log.info(firstName + " " +lastName + "'s record successfully deleted!");
        }else {
-           log.error("Failed to delete person "+person.getFirstName() + " " +person.getLastName());
+           log.error("Failed to delete person "+firstName + " " +lastName);
        }
-
+       return removed;
     }
 }
