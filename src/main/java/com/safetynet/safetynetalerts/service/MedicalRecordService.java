@@ -48,7 +48,7 @@ public class MedicalRecordService {
     /**
      * Update an existing medical record
      * @param medicalRecord A MedicalRecord object
-     * @return The updated record
+     * @return The updated record or null
      */
     public MedicalRecord updateMedicalRecord(MedicalRecord medicalRecord) {
         Optional<MedicalRecord> updatedRecord = medicalRecordList.stream()
@@ -69,15 +69,17 @@ public class MedicalRecordService {
 
     /**
      * Delete an existing medical record
-     * @param medicalRecord A MedicalRecord object
+     * @param firstName first name
+     * @param lastName last name
+     * @return True or false depending on the successfulness or failure of the operation
      */
-    public void deleteMedicalRecord(MedicalRecord medicalRecord) {
-        boolean removed = medicalRecordList.removeIf(mr ->
-                mr.getFirstName().equals(medicalRecord.getFirstName()) && mr.getLastName().equals(medicalRecord.getLastName()));
+    public boolean deleteMedicalRecord(String firstName, String lastName) {
+        boolean removed = medicalRecordList.removeIf(mr -> firstName.equals(mr.getFirstName()) && lastName.equals(mr.getLastName()));
         if(removed){
             log.info("Medical record successfully removed");
         } else {
             log.error("Failed to remove the medical record");
         }
+        return removed;
     }
 }

@@ -12,7 +12,8 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @SpringBootTest
 public class MedicalRecordServiceTest {
@@ -74,9 +75,7 @@ public class MedicalRecordServiceTest {
 
     @Test
     public void testDeleteMedicalRecord_success(){
-        MedicalRecord medicalRecord = new MedicalRecord("Yan", "Fan", "01/01/1978",
-                Arrays.asList("ibu:250mg", "para:1000mg"), Arrays.asList("cow milk", "peanut"));
-        medicalRecordService.deleteMedicalRecord(medicalRecord);
+        medicalRecordService.deleteMedicalRecord("Yan", "Fan");
 
         assertThat(medicalRecordService.getMedicalRecordList()).extracting(MedicalRecord::getFirstName, MedicalRecord::getLastName)
                 .doesNotContain(tuple("Yan", "Fan"));
@@ -84,9 +83,7 @@ public class MedicalRecordServiceTest {
 
     @Test
     public void testDeleteMedicalRecord_fail(){
-        MedicalRecord medicalRecord = new MedicalRecord("Ran", "Tan", "01/01/2000",
-                Arrays.asList("test:50mg", "test2:1000mg"), Arrays.asList("butter", "rice"));
-        medicalRecordService.deleteMedicalRecord(medicalRecord);
+        medicalRecordService.deleteMedicalRecord("Ran", "Tan");
 
         assertThat(medicalRecordService.getMedicalRecordList()).hasSize(2);
     }
