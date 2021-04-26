@@ -37,7 +37,7 @@ public class FirestationService {
      * @return The added mapping or null if the address is null
      */
     public FireStation addFirestation(FireStation fireStation) {
-        if(fireStation.getAddress() != null){
+        if((fireStation.getAddress() != null) && !fireStation.getAddress().isBlank()){
             fireStationList.add(fireStation);
             log.info(fireStation.getAddress() + " " + fireStation.getStation() + " successfully added!");
             return fireStation;
