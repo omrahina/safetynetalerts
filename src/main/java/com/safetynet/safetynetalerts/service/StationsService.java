@@ -28,7 +28,7 @@ public class StationsService {
     /**
      * Get all persons covered by a provided list of stations
      * @param stations A list of station numbers
-     * @return Iterable<StationsDTO>
+     * @return Iterable<StationsDTO> or null
      */
     public Iterable<StationsDTO> getStationsCovered(List<Integer> stations) {
         List<StationsDTO> families = new ArrayList<>();
