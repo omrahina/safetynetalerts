@@ -31,7 +31,7 @@ public class FirestationController {
     }
 
     @PutMapping
-    public ResponseEntity<FireStation> updatedFirestation(@RequestBody FireStation fireStation){
+    public ResponseEntity<FireStation> updateFirestation(@RequestBody FireStation fireStation){
         log.info("updateFirestation request "+ fireStation);
         FireStation updatedFireStation = firestationService.updateFirestation(fireStation);
         log.info("updateFirestation response => "+ updatedFireStation);
