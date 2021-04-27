@@ -1,67 +1,77 @@
 package com.safetynet.safetynetalerts.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safetynet.safetynetalerts.model.Person;
+import com.safetynet.safetynetalerts.service.PersonService;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import java.util.Collections;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
-@AutoConfigureMockMvc
 public class PersonControllerTest {
 
-    @Autowired
-    public MockMvc mockMvc;
+    @InjectMocks
+    PersonController personController;
+    @Mock
+    PersonService personService;
 
     @Test
-    public void testList() throws Exception {
-        mockMvc.perform(get("/person"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].firstName", is("John")));
+    public void testList() {
+        Person person = new Person("Ran", "Tan", "wall street", "Cergy",
+                "95000", "01010103", "tan@gmail.com");
+        when(personService.list()).thenReturn(Collections.singletonList(person));
+
+        ResponseEntity<List<Person>> response = personController.list();
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody().get(0)).isEqualTo(person);
     }
 
     @Test
-    public void testAddPerson() throws Exception {
-
+    public void testAddPerson() {
         Person person = new Person("Ran", "Tan", "wall street",
                 "Cergy", "95000", "01010103", "tan@gmail.com");
+        when(personService.addPerson(any(Person.class))).thenReturn(person);
 
-        String requestBodyJson = new ObjectMapper().writeValueAsString(person);
+        ResponseEntity<Person> response = personController.addPerson(person);
 
-        mockMvc.perform(post("/person").contentType(MediaType.APPLICATION_JSON)
-                .content(requestBodyJson))
-                .andExpect(status().isCreated());
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat(response.getBody().getFirstName()).isEqualTo("Ran");
     }
 
     @Test
-    public void testUpdatePerson() throws Exception {
+    public void testUpdatePerson() {
         Person person = new Person("John", "Boyd", "12 street",
                 "Paris", "75015", "01010101", "yan@gmail.com");
-        String requestBodyJson = new ObjectMapper().writeValueAsString(person);
+        when(personService.updatePerson(any(Person.class))).thenReturn(person);
 
-        mockMvc.perform(put("/person").contentType(MediaType.APPLICATION_JSON)
-                .content(requestBodyJson))
-                .andExpect(status().isOk());
+        ResponseEntity<Person> response = personController.updatePerson(person);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        verify(personService).updatePerson(person);
+
     }
 
     @Test
-    public void testDeletePerson() throws Exception {
+    public void testDeletePerson() {
+        when(personService.deletePerson(anyString(), anyString())).thenReturn(true);
 
-        Person person = new Person("John", "Boyd", "12 street",
-                "Paris", "75015", "01010101", "yan@gmail.com");
-        String requestBodyJson = new ObjectMapper().writeValueAsString(person);
+        ResponseEntity<String> responseEntity = personController.deletePerson("Random", "Random");
 
-        mockMvc.perform(delete("/person")
-                .param("firstName", "John")
-                .param("lastName", "Boyd"))
-                .andExpect(status().isNoContent());
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+        assertNull(responseEntity.getBody());
+        verify(personService).deletePerson("Random", "Random");
     }
 }

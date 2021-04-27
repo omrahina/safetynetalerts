@@ -32,7 +32,7 @@ public class MedicalRecordController {
         MedicalRecord addedRecord = medicalRecordService.addMedicalRecord(medicalRecord);
         log.info("addMedicalRecord response "+addedRecord);
         if(addedRecord != null){
-            return new ResponseEntity<>(addedRecord, HttpStatus.OK);
+            return new ResponseEntity<>(addedRecord, HttpStatus.CREATED);
         }
         return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
