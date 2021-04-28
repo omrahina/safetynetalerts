@@ -19,12 +19,12 @@ import java.util.stream.Collectors;
 @Slf4j
 public class FirestationService {
 
-    private JSONService jsonService;
+    private IDataService dataService;
     private List<FireStation> fireStationList;
 
-    public FirestationService(JSONService jsonService){
-        this.jsonService = jsonService;
-        fireStationList = jsonService.getAllFirestation();
+    public FirestationService(IDataService dataService){
+        this.dataService = dataService;
+        fireStationList = dataService.getAllFirestations();
     }
 
     public Iterable<FireStation> list() {
@@ -90,19 +90,19 @@ public class FirestationService {
     public FireStationDTO getPersonsCoveredByFirestation(int stationNumber) {
 
         log.debug("searching for addresses corresponding to stationNumber " + stationNumber);
-        List<FireStation> fireStations = jsonService.getAllFirestationsByStationNumber(stationNumber);
+        List<FireStation> fireStations = dataService.getAllFirestationsByStationNumber(stationNumber);
         if (!fireStations.isEmpty()){
             List<String> addresses = fireStations.stream().map(FireStation::getAddress).collect(Collectors.toList());
 
             log.debug("searching for people covered by stationNumber " + stationNumber);
-            List<PersonDTO> personsByAddress = jsonService.getAllPersonsByAddress(addresses).stream()
+            List<PersonDTO> personsByAddress = dataService.getAllPersonsByAddress(addresses).stream()
                     .map(person -> new PersonDTO(person.getFirstName(), person.getLastName(), person.getAddress(), person.getPhone()))
                     .collect(Collectors.toList());
 
             log.debug("Retrieving medical records");
             List<MedicalRecord> medicalRecords = new ArrayList<>();
             for (PersonDTO personDTO : personsByAddress){
-                medicalRecords.add(jsonService.getMedicalRecordByFirstNameAndLastName(personDTO.getFirstName(), personDTO.getLastName()));
+                medicalRecords.add(dataService.getMedicalRecordByFirstNameAndLastName(personDTO.getFirstName(), personDTO.getLastName()));
             }
 
             log.debug("Getting information about age");

@@ -13,12 +13,12 @@ import java.util.Optional;
 @Data
 public class MedicalRecordService {
 
-    private JSONService jsonService;
+    private IDataService dataService;
     private List<MedicalRecord> medicalRecordList;
 
-    public MedicalRecordService(JSONService jsonService){
-        this.jsonService = jsonService;
-        medicalRecordList = jsonService.getAllMedicalRecord();
+    public MedicalRecordService(IDataService dataService){
+        this.dataService = dataService;
+        medicalRecordList = dataService.getAllMedicalRecords();
     }
 
     /**

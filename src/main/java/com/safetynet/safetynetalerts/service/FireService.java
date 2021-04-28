@@ -18,10 +18,10 @@ import java.util.stream.Collectors;
 @Data
 public class FireService {
 
-    private JSONService jsonService;
+    private IDataService dataService;
 
-    public FireService(JSONService jsonService){
-        this.jsonService = jsonService;
+    public FireService(IDataService dataService){
+        this.dataService = dataService;
     }
 
     /**
@@ -31,11 +31,11 @@ public class FireService {
      */
     public FireDTO getAllPersonAndStationByAddress(String address) {
         FireDTO fireDTO = new FireDTO(List.of(), 0);
-        List<Person> persons = jsonService.getAllPersonsByAddress(address);
+        List<Person> persons = dataService.getAllPersonsByAddress(address);
         if (persons != null){
             List<ResidentDTO> residents = persons.stream()
                     .map(person -> {
-                        MedicalRecord medicalRecord = jsonService.getMedicalRecordByFirstNameAndLastName(person.getFirstName(), person.getLastName());
+                        MedicalRecord medicalRecord = dataService.getMedicalRecordByFirstNameAndLastName(person.getFirstName(), person.getLastName());
                         return new ResidentDTO(person.getFirstName(), person.getLastName(), person.getPhone(),
                                 AlertUtils.calculateAge(medicalRecord.getBirthdate()), medicalRecord.getMedications(), medicalRecord.getAllergies());
                     })
@@ -47,7 +47,7 @@ public class FireService {
                 log.error("Failed to collect information on resident(s)");
             }
 
-            FireStation fireStation = jsonService.getFirestationByAddress(address);
+            FireStation fireStation = dataService.getFirestationByAddress(address);
             if(fireStation != null){
                 log.info("Station number retrieved");
                 fireDTO.setStation(fireStation.getStation());

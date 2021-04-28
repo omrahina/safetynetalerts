@@ -17,10 +17,10 @@ import java.util.stream.Collectors;
 @Data
 public class ChildAlertService {
 
-    private JSONService jsonService;
+    private IDataService dataService;
 
-    public ChildAlertService(JSONService jsonService){
-        this.jsonService = jsonService;
+    public ChildAlertService(IDataService dataService){
+        this.dataService = dataService;
     }
 
     /**
@@ -31,11 +31,11 @@ public class ChildAlertService {
     public ChildAlertDTO getChildrenByAddress(String address) {
         ChildAlertDTO childAlertDTO = new ChildAlertDTO(List.of(), List.of());
         log.debug("searching for persons living at " + address);
-        List<Person> personsByAddress = jsonService.getAllPersonsByAddress(address);
+        List<Person> personsByAddress = dataService.getAllPersonsByAddress(address);
         if (personsByAddress != null){
             log.debug("searching for their medical records");
             List<MedicalRecord> medicalRecords = personsByAddress.stream()
-                    .map(person -> jsonService.getMedicalRecordByFirstNameAndLastName(person.getFirstName(), person.getLastName()))
+                    .map(person -> dataService.getMedicalRecordByFirstNameAndLastName(person.getFirstName(), person.getLastName()))
                     .collect(Collectors.toList());
 
             log.debug("Extracting children");
