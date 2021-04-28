@@ -18,7 +18,7 @@ public class MedicalRecordService {
 
     public MedicalRecordService(JSONService jsonService){
         this.jsonService = jsonService;
-        medicalRecordList = jsonService.getDataFromJSONFile().getMedicalrecords();
+        medicalRecordList = jsonService.getAllMedicalRecord();
     }
 
     /**

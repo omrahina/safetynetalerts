@@ -19,8 +19,13 @@ import java.util.stream.Collectors;
 @Slf4j
 public class JSONService {
 
-    @Value("classpath:data.json")
-    Resource jsonDataFile;
+    private final Resource jsonDataFile;
+    private final JsonData jsonData;
+
+    public JSONService(@Value("classpath:data.json") Resource jsonDataFile){
+        this.jsonDataFile = jsonDataFile;
+        jsonData = getDataFromJSONFile();
+    }
 
     /**
      * Retrieve data from the JSON file
@@ -40,13 +45,25 @@ public class JSONService {
         return null;
     }
 
+    public List<Person> getAllPerson(){
+        return jsonData.getPersons();
+    }
+
+    public List<FireStation> getAllFirestation(){
+        return jsonData.getFirestations();
+    }
+
+    public List<MedicalRecord> getAllMedicalRecord(){
+        return jsonData.getMedicalrecords();
+    }
+
     /**
      * Get all mappings station/address corresponding to a station number
      * @param stationNumber an int
      * @return A list of mappings
      */
     public List<FireStation> getAllFirestationsByStationNumber(int stationNumber){
-        List<FireStation> fireStations = getDataFromJSONFile().getFirestations().stream().filter(f -> f.getStation() == stationNumber)
+        List<FireStation> fireStations = jsonData.getFirestations().stream().filter(f -> f.getStation() == stationNumber)
                 .collect(Collectors.toList());
         if (!fireStations.isEmpty()){
             log.info("Matching fire station(s) found");
@@ -62,7 +79,7 @@ public class JSONService {
      * @return A list of mappings
      */
     public List<FireStation> getAllFirestationsByStationNumber(List<Integer> stations){
-        List<FireStation> fireStations = getDataFromJSONFile().getFirestations().stream().filter(f -> stations.contains(f.getStation()))
+        List<FireStation> fireStations = jsonData.getFirestations().stream().filter(f -> stations.contains(f.getStation()))
                 .collect(Collectors.toList());
         if (!fireStations.isEmpty()){
             log.info("Matching fire station(s) found");
@@ -78,7 +95,7 @@ public class JSONService {
      * @return A mapping or null when the address is unknown
      */
     public FireStation getFirestationByAddress(String address){
-        Optional <FireStation> fireStation = getDataFromJSONFile().getFirestations().stream()
+        Optional <FireStation> fireStation = jsonData.getFirestations().stream()
                 .filter(f -> address.equals(f.getAddress()))
                 .findFirst();
         if (fireStation.isPresent()){
@@ -95,7 +112,7 @@ public class JSONService {
      * @return A list of persons or null
      */
     public List<Person> getAllPersonsByAddress(List<String> addresses){
-        List<Person> persons = getDataFromJSONFile().getPersons().stream().filter(p -> addresses.contains(p.getAddress()))
+        List<Person> persons = jsonData.getPersons().stream().filter(p -> addresses.contains(p.getAddress()))
                 .collect(Collectors.toList());
         if (!persons.isEmpty()){
             log.info("Matching person(s) found");
@@ -111,7 +128,7 @@ public class JSONService {
      * @return A list of persons or null
      */
     public List<Person> getAllPersonsByAddress(String address){
-        List<Person> persons = getDataFromJSONFile().getPersons().stream().filter(p -> address.equals(p.getAddress()))
+        List<Person> persons = jsonData.getPersons().stream().filter(p -> address.equals(p.getAddress()))
                 .collect(Collectors.toList());
         if (!persons.isEmpty()){
             log.info("Matching person(s) found");
@@ -128,7 +145,7 @@ public class JSONService {
      * @return A list of persons or null
      */
     public List<Person> getPersonsByFirstNameAndLastName(String firstName, String lastName){
-        List<Person> persons = getDataFromJSONFile().getPersons().stream()
+        List<Person> persons = jsonData.getPersons().stream()
                 .filter(person -> firstName.equals(person.getFirstName()) && lastName.equals(person.getLastName()))
                 .collect(Collectors.toList());
         if (!persons.isEmpty()){
@@ -145,7 +162,7 @@ public class JSONService {
      * @return @return A list of persons or null
      */
     public List<Person> getPersonsByCity(String city){
-        List<Person> persons = getDataFromJSONFile().getPersons().stream()
+        List<Person> persons = jsonData.getPersons().stream()
                 .filter(person -> city.equals(person.getCity()))
                 .collect(Collectors.toList());
         if (!persons.isEmpty()){
@@ -163,7 +180,7 @@ public class JSONService {
      * @return A medical record if exists, null otherwise
      */
     public MedicalRecord getMedicalRecordByFirstNameAndLastName(String firstName, String lastName){
-        Optional<MedicalRecord> medicalRecord = getDataFromJSONFile().getMedicalrecords().stream()
+        Optional<MedicalRecord> medicalRecord = jsonData.getMedicalrecords().stream()
                 .filter(mr -> mr.getFirstName().equals(firstName) && mr.getLastName().equals(lastName))
                 .findAny();
 
@@ -182,7 +199,7 @@ public class JSONService {
      * @return A list of records or null when no match found
      */
     public List<MedicalRecord> getAllMedicalRecordsByFirstNameAndLastName(String firstName, String lastName){
-        List<MedicalRecord> medicalRecords = getDataFromJSONFile().getMedicalrecords().stream()
+        List<MedicalRecord> medicalRecords = jsonData.getMedicalrecords().stream()
                 .filter(mr -> firstName.equals(mr.getFirstName()) && lastName.equals(mr.getLastName()))
                 .collect(Collectors.toList());
         if(!medicalRecords.isEmpty()){

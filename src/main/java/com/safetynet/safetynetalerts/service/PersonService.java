@@ -19,7 +19,7 @@ public class PersonService {
 
     public PersonService(JSONService jsonService){
         this.jsonService = jsonService;
-        personList = jsonService.getDataFromJSONFile().getPersons();
+        personList = jsonService.getAllPerson();
     }
 
     /**
