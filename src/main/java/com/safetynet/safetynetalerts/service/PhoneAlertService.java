@@ -14,10 +14,10 @@ import java.util.stream.Collectors;
 @Data
 public class PhoneAlertService {
 
-    private JSONService jsonService;
+    private IDataService dataService;
 
-    public PhoneAlertService(JSONService jsonService){
-        this.jsonService = jsonService;
+    public PhoneAlertService(IDataService dataService){
+        this.dataService = dataService;
     }
 
     /**
@@ -28,10 +28,10 @@ public class PhoneAlertService {
     public Iterable<String> getPhones(int firestation) {
 
         log.debug("searching for addresses corresponding to firestation " + firestation);
-        List<FireStation> fireStations = jsonService.getAllFirestationsByStationNumber(firestation);
+        List<FireStation> fireStations = dataService.getAllFirestationsByStationNumber(firestation);
         if (!fireStations.isEmpty()){
             List<String> addresses = fireStations.stream().map(FireStation::getAddress).collect(Collectors.toList());
-            List<Person> personsByAddress = jsonService.getAllPersonsByAddress(addresses);
+            List<Person> personsByAddress = dataService.getAllPersonsByAddress(addresses);
             if (personsByAddress != null){
                 log.debug("Retrieving phone numbers of people covered by firestation " + firestation);
                 List<String> phones = personsByAddress.stream().map(Person::getPhone).collect(Collectors.toList());

@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 public class StationsServiceTest {
 
     @Mock
-    JSONService jsonService;
+    IDataService dataService;
     @InjectMocks
     StationsService stationsService;
 
@@ -33,9 +33,9 @@ public class StationsServiceTest {
                 "Paris", "75015", "01010101", "yan@gmail.com");
         MedicalRecord medicalRecord = new MedicalRecord("Yan", "Fan", "01/01/1978",
                 Arrays.asList("ibu:250mg", "para:1000mg"), Arrays.asList("cow milk", "peanut"));
-        when(jsonService.getAllFirestationsByStationNumber(anyList())).thenReturn(Collections.singletonList(fireStation));
-        when(jsonService.getAllPersonsByAddress(anyString())).thenReturn(Collections.singletonList(person));
-        when(jsonService.getMedicalRecordByFirstNameAndLastName(anyString(), anyString())).thenReturn(medicalRecord);
+        when(dataService.getAllFirestationsByStationNumber(anyList())).thenReturn(Collections.singletonList(fireStation));
+        when(dataService.getAllPersonsByAddress(anyString())).thenReturn(Collections.singletonList(person));
+        when(dataService.getMedicalRecordByFirstNameAndLastName(anyString(), anyString())).thenReturn(medicalRecord);
         Iterable<StationsDTO> families = stationsService.getStationsCovered(Arrays.asList(1, 2));
 
         assertThat(families).isNotNull();
@@ -44,7 +44,7 @@ public class StationsServiceTest {
 
     @Test
     public void testGetFamiliesCovered_noMatchingFirestation(){
-        when(jsonService.getAllFirestationsByStationNumber(anyList())).thenReturn(List.of());
+        when(dataService.getAllFirestationsByStationNumber(anyList())).thenReturn(List.of());
         Iterable<StationsDTO> families = stationsService.getStationsCovered(Arrays.asList(1, 2));
 
         assertThat(families).isNull();
@@ -52,8 +52,8 @@ public class StationsServiceTest {
     @Test
     public void testGetFamiliesCovered_uninhabitedArea(){
         FireStation fireStation = new FireStation("12 street", 1);
-        when(jsonService.getAllFirestationsByStationNumber(anyList())).thenReturn(Collections.singletonList(fireStation));
-        when(jsonService.getAllPersonsByAddress(anyString())).thenReturn(null);
+        when(dataService.getAllFirestationsByStationNumber(anyList())).thenReturn(Collections.singletonList(fireStation));
+        when(dataService.getAllPersonsByAddress(anyString())).thenReturn(null);
         Iterable<StationsDTO> families = stationsService.getStationsCovered(Arrays.asList(1, 2));
 
         assertThat(families).isNull();

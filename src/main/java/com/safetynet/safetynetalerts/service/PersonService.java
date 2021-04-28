@@ -13,13 +13,13 @@ import java.util.Optional;
 @Slf4j
 public class PersonService {
 
-    private JSONService jsonService;
+    private IDataService dataService;
 
     private List<Person> personList;
 
-    public PersonService(JSONService jsonService){
-        this.jsonService = jsonService;
-        personList = jsonService.getAllPerson();
+    public PersonService(IDataService dataService){
+        this.dataService = dataService;
+        personList = dataService.getAllPersons();
     }
 
     /**

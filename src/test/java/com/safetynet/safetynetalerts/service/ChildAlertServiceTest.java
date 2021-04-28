@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 public class ChildAlertServiceTest {
 
     @Mock
-    JSONService jsonService;
+    IDataService dataService;
     @InjectMocks
     ChildAlertService childAlertService;
 
@@ -35,8 +35,8 @@ public class ChildAlertServiceTest {
         MedicalRecord medicalRecord = new MedicalRecord("Yan", "Fan", "01/01/2012",
                 Arrays.asList("ibu:250mg", "para:1000mg"), Arrays.asList("cow milk", "peanut"));
 
-        when(jsonService.getAllPersonsByAddress(anyString())).thenReturn(persons);
-        when(jsonService.getMedicalRecordByFirstNameAndLastName(anyString(), anyString())).thenReturn(medicalRecord);
+        when(dataService.getAllPersonsByAddress(anyString())).thenReturn(persons);
+        when(dataService.getMedicalRecordByFirstNameAndLastName(anyString(), anyString())).thenReturn(medicalRecord);
 
         ChildAlertDTO childAlertDTO = childAlertService.getChildrenByAddress("Random street");
 
@@ -46,7 +46,7 @@ public class ChildAlertServiceTest {
 
     @Test
     public void testGetChildrenByAddress_wrongAddress(){
-        when(jsonService.getAllPersonsByAddress(anyString())).thenReturn(null);
+        when(dataService.getAllPersonsByAddress(anyString())).thenReturn(null);
         ChildAlertDTO childAlertDTO = childAlertService.getChildrenByAddress("Random street");
 
         assertThat(childAlertDTO.getChildren()).isEmpty();
@@ -60,8 +60,8 @@ public class ChildAlertServiceTest {
         MedicalRecord medicalRecord = new MedicalRecord("Yan", "Fan", "01/01/1978",
                 Arrays.asList("ibu:250mg", "para:1000mg"), Arrays.asList("cow milk", "peanut"));
 
-        when(jsonService.getAllPersonsByAddress(anyString())).thenReturn(Collections.singletonList(person));
-        when(jsonService.getMedicalRecordByFirstNameAndLastName(anyString(), anyString())).thenReturn(medicalRecord);
+        when(dataService.getAllPersonsByAddress(anyString())).thenReturn(Collections.singletonList(person));
+        when(dataService.getMedicalRecordByFirstNameAndLastName(anyString(), anyString())).thenReturn(medicalRecord);
 
         ChildAlertDTO childAlertDTO = childAlertService.getChildrenByAddress("Random street");
 

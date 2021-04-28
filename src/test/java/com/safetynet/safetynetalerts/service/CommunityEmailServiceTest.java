@@ -18,7 +18,7 @@ import static org.mockito.Mockito.when;
 public class CommunityEmailServiceTest {
 
     @Mock
-    JSONService jsonService;
+    IDataService dataService;
     @InjectMocks
     CommunityEmailService communityEmailService;
 
@@ -28,7 +28,7 @@ public class CommunityEmailServiceTest {
                 "Paris", "75015", "01010101", "yan@gmail.com");
         Person person2 = new Person("Lan", "Han", "13 street",
                 "Paris", "91300", "01010102", "lan@gmail.com");
-        when(jsonService.getPersonsByCity(anyString())).thenReturn(Arrays.asList(person1, person2));
+        when(dataService.getPersonsByCity(anyString())).thenReturn(Arrays.asList(person1, person2));
 
         Iterable<String> emails = communityEmailService.getEmailsByCity("Random city");
 
@@ -39,7 +39,7 @@ public class CommunityEmailServiceTest {
 
     @Test
     public void testGetEmailsByCity_fail(){
-        when(jsonService.getPersonsByCity(anyString())).thenReturn(null);
+        when(dataService.getPersonsByCity(anyString())).thenReturn(null);
         Iterable<String> emails = communityEmailService.getEmailsByCity("Random city");
 
         assertNull(emails);

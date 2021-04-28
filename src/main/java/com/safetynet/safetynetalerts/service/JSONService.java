@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-public class JSONService {
+public class JSONService implements IDataService {
 
     private final Resource jsonDataFile;
     private final JsonData jsonData;
@@ -45,23 +45,22 @@ public class JSONService {
         return null;
     }
 
-    public List<Person> getAllPerson(){
+    @Override
+    public List<Person> getAllPersons(){
         return jsonData.getPersons();
     }
 
-    public List<FireStation> getAllFirestation(){
+    @Override
+    public List<FireStation> getAllFirestations(){
         return jsonData.getFirestations();
     }
 
-    public List<MedicalRecord> getAllMedicalRecord(){
+    @Override
+    public List<MedicalRecord> getAllMedicalRecords(){
         return jsonData.getMedicalrecords();
     }
 
-    /**
-     * Get all mappings station/address corresponding to a station number
-     * @param stationNumber an int
-     * @return A list of mappings
-     */
+    @Override
     public List<FireStation> getAllFirestationsByStationNumber(int stationNumber){
         List<FireStation> fireStations = jsonData.getFirestations().stream().filter(f -> f.getStation() == stationNumber)
                 .collect(Collectors.toList());
@@ -73,11 +72,7 @@ public class JSONService {
         return List.of();
     }
 
-    /**
-     * Get all mappings station/address corresponding to a list of station numbers
-     * @param stations A List of int
-     * @return A list of mappings
-     */
+    @Override
     public List<FireStation> getAllFirestationsByStationNumber(List<Integer> stations){
         List<FireStation> fireStations = jsonData.getFirestations().stream().filter(f -> stations.contains(f.getStation()))
                 .collect(Collectors.toList());
@@ -89,11 +84,7 @@ public class JSONService {
         return List.of();
     }
 
-    /**
-     * Get the mapping station/address corresponding to a given address
-     * @param address A String
-     * @return A mapping or null when the address is unknown
-     */
+    @Override
     public FireStation getFirestationByAddress(String address){
         Optional <FireStation> fireStation = jsonData.getFirestations().stream()
                 .filter(f -> address.equals(f.getAddress()))
@@ -106,11 +97,7 @@ public class JSONService {
         return null;
     }
 
-    /**
-     * Get all persons living at a given list of addresses
-     * @param addresses A list of String
-     * @return A list of persons or null
-     */
+    @Override
     public List<Person> getAllPersonsByAddress(List<String> addresses){
         List<Person> persons = jsonData.getPersons().stream().filter(p -> addresses.contains(p.getAddress()))
                 .collect(Collectors.toList());
@@ -122,11 +109,7 @@ public class JSONService {
         return null;
     }
 
-    /**
-     * Get all persons living at a specific address
-     * @param address A String
-     * @return A list of persons or null
-     */
+    @Override
     public List<Person> getAllPersonsByAddress(String address){
         List<Person> persons = jsonData.getPersons().stream().filter(p -> address.equals(p.getAddress()))
                 .collect(Collectors.toList());
@@ -138,12 +121,7 @@ public class JSONService {
         return null;
     }
 
-    /**
-     * Find all persons matching a first name and last name
-     * @param firstName A String
-     * @param lastName A String
-     * @return A list of persons or null
-     */
+    @Override
     public List<Person> getPersonsByFirstNameAndLastName(String firstName, String lastName){
         List<Person> persons = jsonData.getPersons().stream()
                 .filter(person -> firstName.equals(person.getFirstName()) && lastName.equals(person.getLastName()))
@@ -156,11 +134,7 @@ public class JSONService {
         return null;
     }
 
-    /**
-     * Get all persons living in the given city
-     * @param city A String
-     * @return @return A list of persons or null
-     */
+    @Override
     public List<Person> getPersonsByCity(String city){
         List<Person> persons = jsonData.getPersons().stream()
                 .filter(person -> city.equals(person.getCity()))
@@ -173,12 +147,7 @@ public class JSONService {
         return null;
     }
 
-    /**
-     * Get a medical record based on a first and last name
-     * @param firstName A String
-     * @param lastName A String
-     * @return A medical record if exists, null otherwise
-     */
+    @Override
     public MedicalRecord getMedicalRecordByFirstNameAndLastName(String firstName, String lastName){
         Optional<MedicalRecord> medicalRecord = jsonData.getMedicalrecords().stream()
                 .filter(mr -> mr.getFirstName().equals(firstName) && mr.getLastName().equals(lastName))
@@ -192,12 +161,7 @@ public class JSONService {
         return null;
     }
 
-    /**
-     * Get all medical records matching a first name and last name
-     * @param firstName A String
-     * @param lastName A String
-     * @return A list of records or null when no match found
-     */
+    @Override
     public List<MedicalRecord> getAllMedicalRecordsByFirstNameAndLastName(String firstName, String lastName){
         List<MedicalRecord> medicalRecords = jsonData.getMedicalrecords().stream()
                 .filter(mr -> firstName.equals(mr.getFirstName()) && lastName.equals(mr.getLastName()))

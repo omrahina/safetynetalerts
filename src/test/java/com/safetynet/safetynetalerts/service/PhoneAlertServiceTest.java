@@ -5,7 +5,6 @@ import com.safetynet.safetynetalerts.model.Person;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Collections;
@@ -20,7 +19,7 @@ import static org.mockito.Mockito.when;
 public class PhoneAlertServiceTest {
 
     @Mock
-    JSONService jsonService;
+    IDataService dataService;
     @InjectMocks
     PhoneAlertService phoneAlertService;
 
@@ -29,8 +28,8 @@ public class PhoneAlertServiceTest {
         FireStation fireStation = new FireStation("12 street", 1);
         Person person = new Person("Yan", "Fan", "12 street",
                 "Paris", "75015", "01010101", "yan@gmail.com");
-        when(jsonService.getAllFirestationsByStationNumber(anyInt())).thenReturn(Collections.singletonList(fireStation));
-        when(jsonService.getAllPersonsByAddress(anyList())).thenReturn(Collections.singletonList(person));
+        when(dataService.getAllFirestationsByStationNumber(anyInt())).thenReturn(Collections.singletonList(fireStation));
+        when(dataService.getAllPersonsByAddress(anyList())).thenReturn(Collections.singletonList(person));
         Iterable<String> phones = phoneAlertService.getPhones(1);
 
         assertThat(phones).isNotNull();
@@ -39,7 +38,7 @@ public class PhoneAlertServiceTest {
 
     @Test
     public void testGetPhones_unknownFirestation(){
-        when(jsonService.getAllFirestationsByStationNumber(anyInt())).thenReturn(List.of());
+        when(dataService.getAllFirestationsByStationNumber(anyInt())).thenReturn(List.of());
         Iterable<String> phones = phoneAlertService.getPhones(1);
 
         assertThat(phones).isNull();
@@ -48,8 +47,8 @@ public class PhoneAlertServiceTest {
     @Test
     public void testGetPhones_uninhabitedArea(){
         FireStation fireStation = new FireStation("12 street", 1);
-        when(jsonService.getAllFirestationsByStationNumber(anyInt())).thenReturn(Collections.singletonList(fireStation));
-        when(jsonService.getAllPersonsByAddress(anyList())).thenReturn(null);
+        when(dataService.getAllFirestationsByStationNumber(anyInt())).thenReturn(Collections.singletonList(fireStation));
+        when(dataService.getAllPersonsByAddress(anyList())).thenReturn(null);
         Iterable<String> phones = phoneAlertService.getPhones(1);
 
         assertThat(phones).isNull();

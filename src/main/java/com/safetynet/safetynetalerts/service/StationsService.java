@@ -19,10 +19,10 @@ import java.util.stream.Collectors;
 @Data
 public class StationsService {
 
-    private JSONService jsonService;
+    private IDataService dataService;
 
-    public StationsService(JSONService jsonService){
-        this.jsonService = jsonService;
+    public StationsService(IDataService dataService){
+        this.dataService = dataService;
     }
 
     /**
@@ -32,15 +32,15 @@ public class StationsService {
      */
     public Iterable<StationsDTO> getStationsCovered(List<Integer> stations) {
         List<StationsDTO> families = new ArrayList<>();
-        List<FireStation> fireStations = jsonService.getAllFirestationsByStationNumber(stations);
+        List<FireStation> fireStations = dataService.getAllFirestationsByStationNumber(stations);
         if (!fireStations.isEmpty()){
             List<String> addresses = fireStations.stream().map(FireStation::getAddress).collect(Collectors.toList());
             for (String address : addresses){
-                List<Person> persons = jsonService.getAllPersonsByAddress(address);
+                List<Person> persons = dataService.getAllPersonsByAddress(address);
                 if(persons != null){
                     List<ResidentDTO> residents = persons.stream()
                             .map(person -> {
-                                MedicalRecord medicalRecord = jsonService.getMedicalRecordByFirstNameAndLastName(person.getFirstName(), person.getLastName());
+                                MedicalRecord medicalRecord = dataService.getMedicalRecordByFirstNameAndLastName(person.getFirstName(), person.getLastName());
                                 return new ResidentDTO(person.getFirstName(), person.getLastName(), person.getPhone(),
                                         AlertUtils.calculateAge(medicalRecord.getBirthdate()), medicalRecord.getMedications(), medicalRecord.getAllergies());
                             })

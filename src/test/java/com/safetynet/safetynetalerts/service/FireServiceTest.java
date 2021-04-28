@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
 public class FireServiceTest {
 
     @Mock
-    JSONService jsonService;
+    IDataService dataService;
     @InjectMocks
     FireService fireService;
 
@@ -36,9 +36,9 @@ public class FireServiceTest {
         MedicalRecord medicalRecord = new MedicalRecord("Yan", "Fan", "01/01/1978",
                 Arrays.asList("ibu:250mg", "para:1000mg"), Arrays.asList("cow milk", "peanut"));
         FireStation fireStation = new FireStation("12 street", 1);
-        when(jsonService.getFirestationByAddress(anyString())).thenReturn(fireStation);
-        when(jsonService.getAllPersonsByAddress(anyString())).thenReturn(persons);
-        when(jsonService.getMedicalRecordByFirstNameAndLastName(anyString(), anyString())).thenReturn(medicalRecord);
+        when(dataService.getFirestationByAddress(anyString())).thenReturn(fireStation);
+        when(dataService.getAllPersonsByAddress(anyString())).thenReturn(persons);
+        when(dataService.getMedicalRecordByFirstNameAndLastName(anyString(), anyString())).thenReturn(medicalRecord);
 
         FireDTO fireDTO = fireService.getAllPersonAndStationByAddress("Random address");
 
@@ -48,7 +48,7 @@ public class FireServiceTest {
 
     @Test
     public void testGetAllPersonAndStationByAddress_unknownAddress(){
-        when(jsonService.getAllPersonsByAddress(anyString())).thenReturn(null);
+        when(dataService.getAllPersonsByAddress(anyString())).thenReturn(null);
         FireDTO fireDTO = fireService.getAllPersonAndStationByAddress("Random address");
 
         assertThat(fireDTO.getResidents()).isEmpty();
@@ -62,9 +62,9 @@ public class FireServiceTest {
         persons.add(person);
         MedicalRecord medicalRecord = new MedicalRecord("Yan", "Fan", "01/01/1978",
                 Arrays.asList("ibu:250mg", "para:1000mg"), Arrays.asList("cow milk", "peanut"));
-        when(jsonService.getAllPersonsByAddress(anyString())).thenReturn(persons);
-        when(jsonService.getMedicalRecordByFirstNameAndLastName(anyString(), anyString())).thenReturn(medicalRecord);
-        when(jsonService.getFirestationByAddress(anyString())).thenReturn(null);
+        when(dataService.getAllPersonsByAddress(anyString())).thenReturn(persons);
+        when(dataService.getMedicalRecordByFirstNameAndLastName(anyString(), anyString())).thenReturn(medicalRecord);
+        when(dataService.getFirestationByAddress(anyString())).thenReturn(null);
 
         FireDTO fireDTO = fireService.getAllPersonAndStationByAddress("Random address");
 

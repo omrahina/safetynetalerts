@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 public class PersonInfoServiceTest {
 
     @Mock
-    JSONService jsonService;
+    IDataService dataService;
     @InjectMocks
     PersonInfoService personInfoService;
 
@@ -33,8 +33,8 @@ public class PersonInfoServiceTest {
                 Arrays.asList("ibu:250mg", "para:1000mg"), Arrays.asList("cow milk", "peanut"));
         MedicalRecord medicalRecord2 = new MedicalRecord("Yan", "Fan", "01/01/2012",
                 Arrays.asList("ibu:250mg", "para:1000mg"), Arrays.asList("pasta", "sugar"));
-        when(jsonService.getPersonsByFirstNameAndLastName(anyString(), anyString())).thenReturn(Arrays.asList(person1, person2));
-        when(jsonService.getAllMedicalRecordsByFirstNameAndLastName(anyString(), anyString()))
+        when(dataService.getPersonsByFirstNameAndLastName(anyString(), anyString())).thenReturn(Arrays.asList(person1, person2));
+        when(dataService.getAllMedicalRecordsByFirstNameAndLastName(anyString(), anyString()))
                 .thenReturn(Arrays.asList(medicalRecord1, medicalRecord2));
 
         Iterable<PersonInfoDTO> infos = personInfoService.getPersonInfo("Yan", "Fan");
@@ -44,8 +44,8 @@ public class PersonInfoServiceTest {
 
     @Test
     public void testGetPersonInfo_noMatch(){
-        when(jsonService.getPersonsByFirstNameAndLastName(anyString(), anyString())).thenReturn(null);
-        when(jsonService.getAllMedicalRecordsByFirstNameAndLastName(anyString(), anyString())).thenReturn(null);
+        when(dataService.getPersonsByFirstNameAndLastName(anyString(), anyString())).thenReturn(null);
+        when(dataService.getAllMedicalRecordsByFirstNameAndLastName(anyString(), anyString())).thenReturn(null);
         Iterable<PersonInfoDTO> infos = personInfoService.getPersonInfo("Random", "Random");
 
         assertNull(infos);

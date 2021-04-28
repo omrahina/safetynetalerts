@@ -13,10 +13,10 @@ import java.util.stream.Collectors;
 @Data
 public class CommunityEmailService {
 
-    private JSONService jsonService;
+    private IDataService dataService;
 
-    public CommunityEmailService(JSONService jsonService){
-        this.jsonService = jsonService;
+    public CommunityEmailService(IDataService dataService){
+        this.dataService = dataService;
     }
 
     /**
@@ -25,7 +25,7 @@ public class CommunityEmailService {
      * @return Iterable<String> if the city exists, null otherwise
      */
     public Iterable<String> getEmailsByCity(String city) {
-        List<Person> persons = jsonService.getPersonsByCity(city);
+        List<Person> persons = dataService.getPersonsByCity(city);
         if(persons != null){
             List<String> emails = persons.stream().map(Person::getEmail).collect(Collectors.toList());
             log.info("Emails retrieved");

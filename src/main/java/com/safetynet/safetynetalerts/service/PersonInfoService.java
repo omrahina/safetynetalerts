@@ -16,10 +16,10 @@ import java.util.List;
 @Data
 public class PersonInfoService {
 
-    private JSONService jsonService;
+    private IDataService dataService;
 
-    public PersonInfoService(JSONService jsonService){
-        this.jsonService = jsonService;
+    public PersonInfoService(IDataService dataService){
+        this.dataService = dataService;
     }
 
     /**
@@ -30,8 +30,8 @@ public class PersonInfoService {
      */
     public Iterable<PersonInfoDTO> getPersonInfo(String firstName, String lastName) {
         List<PersonInfoDTO> personInfos = new ArrayList<>();
-        List<Person> persons = jsonService.getPersonsByFirstNameAndLastName(firstName, lastName);
-        List<MedicalRecord> medicalRecords = jsonService.getAllMedicalRecordsByFirstNameAndLastName(firstName, lastName);
+        List<Person> persons = dataService.getPersonsByFirstNameAndLastName(firstName, lastName);
+        List<MedicalRecord> medicalRecords = dataService.getAllMedicalRecordsByFirstNameAndLastName(firstName, lastName);
         if ((persons != null) && (medicalRecords != null)){
             for (int i = 0; i < persons.size(); i++){
                 Person person = persons.get(i);
