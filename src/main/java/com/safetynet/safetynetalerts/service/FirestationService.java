@@ -24,7 +24,7 @@ public class FirestationService {
 
     public FirestationService(JSONService jsonService){
         this.jsonService = jsonService;
-        fireStationList = jsonService.getDataFromJSONFile().getFirestations();
+        fireStationList = jsonService.getAllFirestation();
     }
 
     public Iterable<FireStation> list() {
