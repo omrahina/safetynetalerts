@@ -26,7 +26,7 @@ public class StationsController {
     @GetMapping
     public ResponseEntity<Iterable<StationsDTO>> getFamiliesCovered(@RequestParam List<Integer> stations){
         log.info("getFamiliesCovered request "+ stations);
-        Iterable<StationsDTO> result = stationsService.getStationsCovered(stations);
+        Iterable<StationsDTO> result = stationsService.getFamiliesCovered(stations);
         if (result != null){
             log.info("getFamiliesCovered response "+ result);
             return new ResponseEntity<>(result, HttpStatus.OK);
