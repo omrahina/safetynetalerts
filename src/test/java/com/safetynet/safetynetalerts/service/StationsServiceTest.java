@@ -36,7 +36,7 @@ public class StationsServiceTest {
         when(dataService.getAllFirestationsByStationNumber(anyList())).thenReturn(Collections.singletonList(fireStation));
         when(dataService.getAllPersonsByAddress(anyString())).thenReturn(Collections.singletonList(person));
         when(dataService.getMedicalRecordByFirstNameAndLastName(anyString(), anyString())).thenReturn(medicalRecord);
-        Iterable<StationsDTO> families = stationsService.getStationsCovered(Arrays.asList(1, 2));
+        Iterable<StationsDTO> families = stationsService.getFamiliesCovered(Arrays.asList(1, 2));
 
         assertThat(families).isNotNull();
         assertThat(families).extracting(StationsDTO::getAddress).containsExactly("12 street");
@@ -45,7 +45,7 @@ public class StationsServiceTest {
     @Test
     public void testGetFamiliesCovered_noMatchingFirestation(){
         when(dataService.getAllFirestationsByStationNumber(anyList())).thenReturn(List.of());
-        Iterable<StationsDTO> families = stationsService.getStationsCovered(Arrays.asList(1, 2));
+        Iterable<StationsDTO> families = stationsService.getFamiliesCovered(Arrays.asList(1, 2));
 
         assertThat(families).isNull();
     }
@@ -54,7 +54,7 @@ public class StationsServiceTest {
         FireStation fireStation = new FireStation("12 street", 1);
         when(dataService.getAllFirestationsByStationNumber(anyList())).thenReturn(Collections.singletonList(fireStation));
         when(dataService.getAllPersonsByAddress(anyString())).thenReturn(null);
-        Iterable<StationsDTO> families = stationsService.getStationsCovered(Arrays.asList(1, 2));
+        Iterable<StationsDTO> families = stationsService.getFamiliesCovered(Arrays.asList(1, 2));
 
         assertThat(families).isNull();
     }
