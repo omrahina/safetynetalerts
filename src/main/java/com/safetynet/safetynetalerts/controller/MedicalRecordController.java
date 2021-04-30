@@ -30,10 +30,11 @@ public class MedicalRecordController {
     public ResponseEntity<MedicalRecord> addMedicalRecord(@RequestBody MedicalRecord medicalRecord){
         log.info("addMedicalRecord request "+medicalRecord);
         MedicalRecord addedRecord = medicalRecordService.addMedicalRecord(medicalRecord);
-        log.info("addMedicalRecord response "+addedRecord);
         if(addedRecord != null){
+            log.info("addMedicalRecord response "+addedRecord);
             return new ResponseEntity<>(addedRecord, HttpStatus.CREATED);
         }
+        log.error("addMedicalRecord response "+null);
         return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
 
@@ -41,10 +42,11 @@ public class MedicalRecordController {
     public ResponseEntity<MedicalRecord> updateMedicalRecord(@RequestBody MedicalRecord medicalRecord){
         log.info("updateMedicalRecord request "+medicalRecord);
         MedicalRecord updatedRecord = medicalRecordService.updateMedicalRecord(medicalRecord);
-        log.info("updateMedicalRecord response => "+updatedRecord);
         if (updatedRecord != null){
+            log.info("updateMedicalRecord response => "+updatedRecord);
             return new ResponseEntity<>(updatedRecord, HttpStatus.OK);
         }
+        log.error("updateMedicalRecord response => "+null);
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
@@ -52,10 +54,11 @@ public class MedicalRecordController {
     public ResponseEntity<String> deleteMedicalRecord(@RequestParam String firstName, @RequestParam String lastName){
         log.info("Request deleteMedicalRecord "+ firstName + " " +lastName);
         boolean removed = medicalRecordService.deleteMedicalRecord(firstName, lastName);
-        log.info("Response deleteMedicalRecord => "+removed);
         if(removed){
+            log.info("Response deleteMedicalRecord => "+true);
             return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
         }
+        log.error("Response deleteMedicalRecord => "+false);
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 }

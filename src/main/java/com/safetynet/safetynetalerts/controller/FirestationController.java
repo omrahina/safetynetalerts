@@ -23,10 +23,11 @@ public class FirestationController {
     public ResponseEntity<FireStation> addFirestation(@RequestBody FireStation fireStation){
         log.info("addFirestation request "+ fireStation);
         FireStation mapping = firestationService.addFirestation(fireStation);
-        log.info("addFirestation response "+ mapping);
         if (mapping != null){
+            log.info("addFirestation response "+ mapping);
             return new ResponseEntity<>(mapping, HttpStatus.CREATED);
         }
+        log.error("addFirestation response "+ null);
         return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
 
@@ -34,10 +35,11 @@ public class FirestationController {
     public ResponseEntity<FireStation> updateFirestation(@RequestBody FireStation fireStation){
         log.info("updateFirestation request "+ fireStation);
         FireStation updatedFireStation = firestationService.updateFirestation(fireStation);
-        log.info("updateFirestation response => "+ updatedFireStation);
         if (updatedFireStation != null){
+            log.info("updateFirestation response => "+ updatedFireStation);
             return new ResponseEntity<>(updatedFireStation, HttpStatus.OK);
         }
+        log.error("updateFirestation response => "+ null);
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
@@ -45,10 +47,11 @@ public class FirestationController {
     public ResponseEntity<String> deleteFirestation(@RequestParam String address){
         log.info("deleteFirestation request "+ address);
         boolean removed = firestationService.deleteFirestation(address);
-        log.info("deleteFirestation response "+ removed);
         if(removed){
+            log.info("deleteFirestation response ==> "+ true);
             return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
         }
+        log.error("deleteFirestation response ==> "+ false);
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
@@ -57,8 +60,10 @@ public class FirestationController {
         log.info("getPersonsCoveredByFirestation request "+ stationNumber);
         FireStationDTO result = firestationService.getPersonsCoveredByFirestation(stationNumber);
         if (result != null){
+            log.info("getPersonsCoveredByFirestation response "+ result);
             return new ResponseEntity<>(result, HttpStatus.OK);
         }
+        log.error("getPersonsCoveredByFirestation response "+ null);
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
