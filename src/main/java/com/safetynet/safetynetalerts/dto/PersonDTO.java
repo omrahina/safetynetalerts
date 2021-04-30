@@ -1,4 +1,4 @@
-package com.safetynet.safetynetalerts.model;
+package com.safetynet.safetynetalerts.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,8 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FireStation {
-
+public class PersonDTO {
+    private String firstName;
+    private String lastName;
     private String address;
-    private int station;
+    private String phone;
 }

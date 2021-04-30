@@ -1,4 +1,4 @@
-package com.safetynet.safetynetalerts.model;
+package com.safetynet.safetynetalerts.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,11 +9,11 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MedicalRecord {
-
+public class ResidentDTO {
     private String firstName;
     private String lastName;
-    private String birthdate;
+    private String phone;
+    private int age;
     private List<String> medications;
     private List<String> allergies;
 }
