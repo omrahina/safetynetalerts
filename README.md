@@ -29,3 +29,6 @@ To generate test reports execute the following command
 ```bash
 mvn site
 ```
+
+## Test
+[A Postman Collection](SafetyNet%20Alerts.postman_collection.json) is provided for testing purposes.
