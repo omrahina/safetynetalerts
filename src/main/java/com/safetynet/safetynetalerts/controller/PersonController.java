@@ -32,10 +32,11 @@ public class PersonController {
     public ResponseEntity<Person> addPerson(@RequestBody Person person){
         log.info("addPerson call "+person);
         Person addedPerson = personService.addPerson(person);
-        log.info("addPerson return => "+ addedPerson);
         if (addedPerson != null){
+            log.info("addPerson return => "+ addedPerson);
             return new ResponseEntity<>(addedPerson, HttpStatus.CREATED);
         }
+        log.error("addPerson return => "+ null);
         return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
 
@@ -43,10 +44,11 @@ public class PersonController {
     public ResponseEntity<Person> updatePerson(@RequestBody Person person){
         log.info("Request updatePerson "+person);
         Person updatedPerson = personService.updatePerson(person);
-        log.info("Response updatePerson => "+updatedPerson);
         if(updatedPerson != null){
+            log.info("Response updatePerson => "+updatedPerson);
             return new ResponseEntity<>(updatedPerson, HttpStatus.OK);
         }
+        log.error("Response updatePerson => "+null);
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
@@ -54,10 +56,11 @@ public class PersonController {
     public ResponseEntity<String> deletePerson(@RequestParam String firstName, @RequestParam String lastName){
         log.info("Request deletePerson "+ firstName + " " +lastName);
         boolean removed = personService.deletePerson(firstName, lastName);
-        log.info("Response deletePerson => "+removed);
         if(removed){
+            log.info("Response deletePerson => "+true);
             return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
         }
+        log.error("Response deletePerson => "+false);
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 }

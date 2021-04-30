@@ -30,7 +30,7 @@ public class StationsService {
      * @param stations A list of station numbers
      * @return Iterable<StationsDTO> or null
      */
-    public Iterable<StationsDTO> getStationsCovered(List<Integer> stations) {
+    public Iterable<StationsDTO> getFamiliesCovered(List<Integer> stations) {
         List<StationsDTO> families = new ArrayList<>();
         List<FireStation> fireStations = dataService.getAllFirestationsByStationNumber(stations);
         if (!fireStations.isEmpty()){
