@@ -13,7 +13,7 @@ This project is part of OpenClassrooms' Java Deleveloper Path that integrates ma
 
 ### Run
 
-Compile the project
+Build the project
 
 ```bash
 mvn clean install
